@@ -1,6 +1,6 @@
 # EU4 Japanese for Mac
 
-Steam macOS版Europa Universalis IV向けの日本語化インストーラです。最新版は **2.2.0**。対応EU4は **1.37.x**、推奨・検証基準は **1.37.5.0**。実行ファイルとdylibはx86_64単独を要求します。Apple SiliconではRosetta 2経由で使用し、SIPは有効のままにしてください。
+Steam macOS版Europa Universalis IV向けの日本語化インストーラです。最新版は **2.2.1**。対応EU4は **1.37.x**、推奨・検証基準は **1.37.5.0**。実行ファイルとdylibはx86_64単独を要求します。Apple SiliconではRosetta 2経由で使用し、SIPは有効のままにしてください。
 
 [インストーラZIP](https://github.com/shonen0129/EU4-Japanese-Mac/releases/latest/download/EU4-Japanese-Mac.zip) · [リリースとSHA256](https://github.com/shonen0129/EU4-Japanese-Mac/releases) · [配布と検証方針](SECURITY.md)
 

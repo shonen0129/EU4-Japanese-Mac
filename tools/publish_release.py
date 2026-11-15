@@ -27,10 +27,10 @@ def main():
   notes='管理リポジトリのソースから生成したインストーラです。ネイティブ部分は利用者のMacでビルドし、日本語MODは固定SHA256で検証します。\n\n単独・サニタイザ・注入・模擬appの導入/更新/署名/復元/削除テストを通過。実ゲームの全クラッシュ解消を保証するものではありません。\n\nZIPを展開し .command を実行してください。SHA256SUMS.txtを添付しています。\n\nSource commit: '+commit
   release=api('POST','/releases',{'tag_name':tag,'target_commitish':commit,'name':'EU4 Japanese for Mac '+version,'body':notes,'draft':True,'prerelease':False})
  existing={a['name']:a for a in release.get('assets',[])}
- allowed={'EU4-Japanese-Mac.zip','EU4 Japanese for Mac.command','SHA256SUMS.txt'}
+ allowed={'EU4-Japanese-Mac.zip','EU4-Japanese-Mac.command','SHA256SUMS.txt'}
  if not set(existing)<=allowed:raise SystemExit('Draft contains unexpected assets; refusing publication')
  url=release['upload_url'].split('{')[0]
- for name,kind in [('EU4-Japanese-Mac.zip','application/zip'),('EU4 Japanese for Mac.command','application/octet-stream'),('SHA256SUMS.txt','text/plain')]:
+ for name,kind in [('EU4-Japanese-Mac.zip','application/zip'),('EU4-Japanese-Mac.command','application/octet-stream'),('SHA256SUMS.txt','text/plain')]:
   p=ROOT/'dist'/name;assert p.is_file()
   if name in existing:
    a=existing[name]

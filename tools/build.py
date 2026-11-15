@@ -61,6 +61,7 @@ fi
 exit "$EU4JP_RESULT"
 '''
  command=dist/'EU4 Japanese for Mac.command';command.write_text(header+runtime+footer);command.chmod(0o755)
+ standalone=dist/'EU4-Japanese-Mac.command';standalone.write_bytes(command.read_bytes());standalone.chmod(0o755)
  files={'EU4 Japanese for Mac.command':command,'README.md':ROOT/'README.md','LICENSE':ROOT/'LICENSE','THIRD_PARTY_NOTICES.md':ROOT/'THIRD_PARTY_NOTICES.md','UNICODE-LICENSE.txt':ROOT/'UNICODE-LICENSE.txt','dependencies.lock.json':ROOT/'dependencies.lock.json','SECURITY.md':ROOT/'SECURITY.md'}
  for p in sorted((ROOT/'docs').glob('*')):
   if p.is_file() and p.name!='README.md':files['docs/'+p.name]=p
@@ -69,7 +70,7 @@ exit "$EU4JP_RESULT"
   for name,p in sorted(files.items()):
    info=zipfile.ZipInfo('EU4-Japanese-Mac/'+name,date_time=(2026,11,15,0,0,0));info.create_system=3;info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=(0o100755 if name.endswith('.command') else 0o100644)<<16;z.writestr(info,p.read_bytes())
  with zipfile.ZipFile(archive) as z:assert z.testzip() is None and z.read('EU4-Japanese-Mac/EU4 Japanese for Mac.command')==command.read_bytes()
- (dist/'SHA256SUMS.txt').write_text(''.join(digest(p.read_bytes())+'  '+p.name+'\n' for p in [archive,command]))
+ (dist/'SHA256SUMS.txt').write_text(''.join(digest(p.read_bytes())+'  '+p.name+'\n' for p in [archive,standalone]))
  (build/'native-bundle.json').write_text(json.dumps({'sha256':native_id,'files':hashes},indent=2)+'\n')
  (build/'support-codepoints.txt').write_text(''.join(f'{ord(c):X}\n' for c in support['characters']))
  print(f'Built {version}; native source bundle {native_id}; ZIP {digest(archive.read_bytes())}')

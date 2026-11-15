@@ -18,7 +18,7 @@ class ReleaseTests(unittest.TestCase):
    return {'id':2}
   values={'GITHUB_REPOSITORY':m.REPO,'GITHUB_REF':'refs/heads/main','GITHUB_SHA':SHA}
   if env:values.update(env)
-  with patch.dict(m.os.environ,values,clear=True),patch.object(m.subprocess,'check_output',return_value=SHA+'\n'),patch.object(m,'api',side_effect=api):m.main()
+  with patch.dict(m.os.environ,values,clear=True),patch.object(m.subprocess,'check_output',return_value=SHA+'\n'),patch.object(m,'api',side_effect=api),patch('builtins.print'):m.main()
  def draft(self,assets=None):return {'id':1,'draft':True,'target_commitish':SHA,'upload_url':'https://uploads.github.com/repos/shonen0129/EU4-Japanese-Mac/releases/1/assets{?name}','assets':assets or []}
  def test_new_release(self):
   self.run_publish();self.assertEqual(len([x for x in self.calls if x[0]=='POST']),4);self.assertEqual(self.calls[-1][0],'PATCH')
