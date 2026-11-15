@@ -1,0 +1,52 @@
+name: Verify and release
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: macos-15-intel
+    timeout-minutes: 30
+    steps:
+      - name: Fetch exact event commit without external Actions
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init .
+          git remote add origin https://github.com/shonen0129/EU4-Japanese-Mac.git
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Source, dependency, sanitizer and injector tests
+        run: python3 tools/test.py
+      - name: Isolated installation and rollback tests
+        run: python3 tests/integration.py
+  release:
+    if: github.repository == 'shonen0129/EU4-Japanese-Mac' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Fetch verified commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init .
+          git remote add origin https://github.com/shonen0129/EU4-Japanese-Mac.git
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Reproduce source-only installer package
+        run: python3 tools/build.py
+      - name: Publish a new version after verification
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 tools/publish_release.py

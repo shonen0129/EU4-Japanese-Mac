@@ -1,0 +1,28 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),crypto=require('crypto');
+const source=fs.readFileSync('build/installer.js','utf8'),c={};vm.createContext(c);vm.runInContext(source,c);
+let n=0;const test=f=>{f();++n;},sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+test(()=>assert.equal(c.INSTALLER_VERSION,fs.readFileSync('VERSION','utf8').trim()));
+test(()=>assert.equal(c.PROJECT_REPOSITORY,'shonen0129/EU4-Japanese-Mac'));
+for(const [file,text] of Object.entries(c.JP_SUPPORT.source_bundle))test(()=>assert.equal(c.JP_SUPPORT.source_hashes[file],sha(text),file));
+test(()=>assert(!source.includes('eu4dll_mac_build_5.zip')));
+test(()=>assert(!source.includes('codeload.github.com')));
+test(()=>assert(!c.preparePatch.toString().includes('download(')));
+test(()=>assert(!c.prepareMod.toString().includes('latest(')));
+test(()=>assert(c.prepareMod.toString().includes('pin.download_sha256')));
+test(()=>assert(c.prepareMod.toString().includes('pin.dist_sha256')));
+test(()=>assert(c.prepareMod.toString().includes('pin.archive_sha256')));
+test(()=>assert(c.prepareMod.toString().includes('pin.descriptor_sha256')));
+test(()=>assert.equal(c.options(['--check-updates']).action,'check-updates'));
+const mod=c.MODS[0],pin=c.DEPENDENCY_LOCK.mods[mod.id];
+c.modDir='/mods';c.scratch='/scratch';c.state={mods:{}};c.noLink=()=>{};c.log=()=>{};c.exists=()=>false;c.read=()=>'';c.descriptor=()=>{};c.download=()=>{};
+c.sha=()=> '0'.repeat(64);
+test(()=>assert.throws(()=>c.prepareMod(mod),/dist.v2.json.*SHA256/));
+c.sha=p=>p.endsWith('.dist.json')?pin.dist_sha256:'0'.repeat(64);
+c.json=()=>({url:'https://d3fxmsw7mhzbqi.cloudfront.net/test.zip',file_md5:pin.download_md5,file_size:pin.download_size});c.size=()=>pin.download_size;
+test(()=>assert.throws(()=>c.prepareMod(mod),/固定SHA256/));
+c.json=()=>({url:'https://d3fxmsw7mhzbqi.cloudfront.net/test.zip',file_md5:'0'.repeat(32),file_size:pin.download_size});
+test(()=>assert.throws(()=>c.prepareMod(mod),/checksum\/size/));
+// Even if a server provides a self-consistent new MD5/size, the reviewed dist hash rejects it.
+c.sha=()=> '1'.repeat(64);
+test(()=>assert.throws(()=>c.prepareMod(mod),/SHA256/));
+console.log(n+' source/dependency security checks passed');

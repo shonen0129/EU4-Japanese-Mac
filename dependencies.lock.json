@@ -1,0 +1,42 @@
+{
+  "format": 1,
+  "policy": "Only manifest-reviewed bytes may be installed. Upstream latest is informational.",
+  "mods": {
+    "jpmod_ap0_mod": {
+      "repository": "matanki-saito/EU4JPModCore",
+      "release": "24",
+      "published": "2024-05-25T18:31:08Z",
+      "dist_url": "https://github.com/matanki-saito/EU4JPModCore/releases/download/24/dist.v2.json",
+      "dist_sha256": "5bb777b38b545344108e07bd942ab83db2ba2a2f4f879c2dbf895e7db91e0049",
+      "download_sha256": "87cae1778360edd284507a1fafbaf29ed40ec2fdb98d91655cec598482f4d75b",
+      "download_size": 29719592,
+      "download_md5": "e582eefe006ad603fcd00306d08d3c02",
+      "archive_sha256": "b8d8809bda709a74b26de0e0cf7a0e5f2f24564e1c6280deaa2c635911903c77",
+      "descriptor_sha256": "f3cef556f0b1b5689c81564abfc39b7834e6fb29063e1d0f0bf5804eeaffbd25"
+    },
+    "jpmod_ap1_mod": {
+      "repository": "matanki-saito/EU4JPModAppendixI",
+      "release": "402",
+      "published": "2025-11-17T20:29:58Z",
+      "dist_url": "https://github.com/matanki-saito/EU4JPModAppendixI/releases/download/402/dist.v2.json",
+      "dist_sha256": "5de06b32d957e8e3399ce8f864694a3078d24891b61a50a9b1377feb7656ae7c",
+      "download_sha256": "18394cf3be314d4f415b584461e994ded74f88e20929138dd81b6d01fa43e347",
+      "download_size": 4995556,
+      "download_md5": "335ee3a5499af5a1a2bd29661e5fded9",
+      "archive_sha256": "ac82570847f6021ab645ddc945b061371569444ab41462dce46b792880d75991",
+      "descriptor_sha256": "6cef72b1e62e16a26aa1fff65f6d08df8d09417b84ef4dde00fb2dfa74962ceb"
+    },
+    "jpmod_ap2_mod": {
+      "repository": "matanki-saito/EU4JPModAppendixII",
+      "release": "248",
+      "published": "2025-11-17T22:28:47Z",
+      "dist_url": "https://github.com/matanki-saito/EU4JPModAppendixII/releases/download/248/dist.v2.json",
+      "dist_sha256": "9e6981610c5a440cf130a502f9f099dee57e6f1e8c06e6748c96782fa93ecd70",
+      "download_sha256": "4f0e16455506c8d0838f1e48cf9e64503bac6ed0bcc365e4dfe10e594728bcff",
+      "download_size": 4774939,
+      "download_md5": "a3e8966a1ae349f48f8e64a21166743f",
+      "archive_sha256": "70f87fb436ba35802b7ac261b74518a6200d2ccfa37c07ef84757e534fcd4ca4",
+      "descriptor_sha256": "cc7cbba46719bf2f62e41c6651c62c1b7d8eb429920320e91815f74cf5c429e8"
+    }
+  }
+}
